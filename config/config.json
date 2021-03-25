@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "root",
+    "password": "ctipwd1",
+    "database": "dti",
+    "host": "192.168.0.115",
+    "port" : "13306",
+    "dialect": "mysql"
+  }
+}
