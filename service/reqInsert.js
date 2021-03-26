@@ -18,13 +18,13 @@ module.exports.parseAndInsert = async function(req){
             winston.info("*******************query start *************************");
             for(const tableInfo of tableInfos){
                 winston.debug(JSON.stringify(tableInfo));
-                if(!Array.isArray(tableInfo.tableData)){
+                if(!Array.isArray(tableInfo.tableData)){ //tableData가 단일
                     let rslt = await db[tableInfo.tableName.toUpperCase()].create(tableInfo.tableData,{ transaction: t });
                     //rlst =  new Error("임의 발생");
                     if(rslt instanceof Error){
                         throw new rslt;
                     }
-                }else {
+                }else { //tableData가 Array
                     for (const chileTableData of tableInfo.tableData) {
                         let rslt = await db[tableInfo.tableName.toUpperCase()].create(chileTableData, {transaction: t});
                         //rslt = new Error("임의 발생");

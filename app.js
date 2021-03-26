@@ -9,6 +9,7 @@ const session = require('express-session');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const api = require('./routes/api');
+
 const stix_event = require('./service/stixInsert_event');
 const stix_anomaly = require('./service/stixInsert_anomaly');
 
@@ -51,8 +52,6 @@ app.use(function (req, res, next) { // 1
   next();
 });
 
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
   resave: false,
   saveUninitialized: false,
@@ -77,6 +76,10 @@ app.use((req, res, next) => {
   next(error);
 });
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+
+
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
@@ -92,4 +95,5 @@ app.listen(app.get('port'), () => {
 });
 
 stix_event.searchAndInsert();
+
 stix_anomaly.searchAndInsert();

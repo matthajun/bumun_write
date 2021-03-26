@@ -25,8 +25,8 @@ module.exports.searchAndInsert = async function() {
                 winston.info("*******************query start *************************");
                 //console.log(db[tableName.toUpperCase()]);
                 let rslt = await h007_table.findAll({include: [
-                    stix_table
-                ]},{where: {stix_tag_a: 'C'}}).then(async users => {
+                        stix_table
+                    ]},{where: {stix_tag_a: 'C'}}).then(async users => {
                     if (users) {
                         console.log(users)
                         /*let childTable = [];

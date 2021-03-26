@@ -98,4 +98,3 @@ module.exports = class KDN_AMLY_H007 extends Sequelize.Model {
         });
     }
 };
-

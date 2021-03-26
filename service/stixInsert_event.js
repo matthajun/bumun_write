@@ -16,7 +16,7 @@ module.exports.searchAndInsert = async function() {
     schedule.scheduleJob('*/10 * * * * *', async function () {
         let rtnResult = {};
         try {
-                const result = await db.sequelize.transaction(async (t) => {
+
                 winston.info("********************************************************************************");
                 winston.info("*******************query start *************************");
 
@@ -37,11 +37,11 @@ module.exports.searchAndInsert = async function() {
                 }
                 winston.info("********************************************************************************");
                 winston.info("*******************query end *************************");
-            });
+
 
             console.log(event_tableInfos);
-            KeyChange.KeyChange_event(event_tableInfos.tableData);
-            stixInsert.ParseandInsert(event_tableInfos);
+            //KeyChange.KeyChange_event(event_tableInfos.tableData);
+            //stixInsert.ParseandInsert(event_tableInfos);
         } catch (error) {
             // If the execution reaches this line, an error occurred.
             // The transaction has already been rolled back automatically by Sequelize!
