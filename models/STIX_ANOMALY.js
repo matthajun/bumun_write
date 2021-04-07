@@ -17,7 +17,7 @@ module.exports = class STIX_ANOMALY extends Sequelize.Model {
                 defaultValue: 'KST'
             },
             ipAgent: {
-                type: Sequelize.STRING(10),
+                type: Sequelize.STRING(30),
                 allowNull: true,
                 defaultValue: 'single',
             },
@@ -61,10 +61,9 @@ module.exports = class STIX_ANOMALY extends Sequelize.Model {
                 defaultValue: '',
             },
             original: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.TEXT,
                 allowNull: true,
             },
-
             timeStart: {
                 type: Sequelize.STRING(20),
                 allowNull: true,

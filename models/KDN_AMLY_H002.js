@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class KDN_AMLY_H002_MEMORY_INFO extends Sequelize.Model {
+module.exports = class KDN_AMLY_H002 extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
             message_id: {
@@ -20,11 +20,19 @@ module.exports = class KDN_AMLY_H002_MEMORY_INFO extends Sequelize.Model {
                 allowNull: false,
                 defaultValue: 'local',
             },
-            usage: {
+            usageCPU: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            capacity: {
+            usageMemory: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            Memory_capacity: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            usageDisk: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
@@ -32,12 +40,17 @@ module.exports = class KDN_AMLY_H002_MEMORY_INFO extends Sequelize.Model {
                 type: Sequelize.STRING(30),
                 allowNull: true,
             },
+            trans_tag_s: {
+                type: Sequelize.STRING(10),
+                allowNull: false,
+                defaultValue: 'C',
+            },
         }, {
             sequelize,
             timestamps: false,
             underscored: false,
-            modelName: 'KDN_AMLY_H002_MEMORY_INFO',
-            tableName: 'kdn_amly_H002_memory_info',
+            modelName: 'KDN_AMLY_H002',
+            tableName: 'kdn_amly_H002',
             paranoid: true,
             charset: 'utf8',
             collate: 'utf8_general_ci',

@@ -17,7 +17,7 @@ module.exports.makeReqData = function (id){
     reqData.body = reqBody;
     return reqData;
 };
-
+/*
 module.exports.makeReqData_H004 = function (id, policy_type){
     let reqData = {};
     let reqBody = {"policy_type": policy_type };
@@ -80,7 +80,7 @@ module.exports.makeReqData_L003 = function (id){
     reqData.body = reqBody;
     return reqData;
 };
-
+*/
 module.exports.makeResData = function (err, req){
     let resData={};
     let resBody={};
@@ -108,4 +108,40 @@ module.exports.makeResData = function (err, req){
     resData.header = reqHeaderData;
     resData.body = resBody;
     return resData;
+};
+
+module.exports.makeSTIXData_event= function (table) {
+    const headerData = {flag: table.flag, timeAgent: table.timeAgent, timeZone: table.timezone, ipAgent: table.ipAgent, nameAgent: table.nameAgent, vendorAgent:table.vendorAgent, typeAgent: '', versionAgent: '',
+        idOrganizationAgent: table.idOrganizationAgent, nameOperator: '', nameUnit: table.nameUnit, location: '', original: table.original};
+    const bodyData = {nameAttack: table.nameAttack, timeAttackStart: '', timeAttackEnd: '', ipAttacker: table.ipAttacker, ipVictim: table.ipVictim, macAttacker: table.macAttacker, macVictim: table.macVictim,
+    portAttacker: table.portAttacker, portVictim: table.portVictim, protocol: table.protocol, ipVersion: '', levelRisk: table.levelRisk, typeAction: '', countAttack: '', idRule: '', nameModule: '', categoryModule: '', lengthPacket: '',
+    directionAttack: ''};
+
+    const totalData = {header: headerData, event: bodyData};
+
+    return totalData;
+};
+
+module.exports.makeSTIXData_anomaly = function (table) {
+    const headerData = {flag: table.flag, timeAgent: table.timeAgent, timeZone: table.timeZone, ipAgent: table.ipAgent, nameAgent: table.nameAgent, vendorAgent:table.vendorAgent, typeAgent: '', versionAgent: '',
+    idOrganizationAgent: table.idOrganizationAgent, nameOperator: '', nameUnit: table.nameUnit, location: '', original: table.original};
+    const bodyData = {timeStart: table.timeStart, timeEnd: table.timeEnd, candidate: '', score: table.score, category: table.category, description: table.description};
+
+    const totalData = {header: headerData, anomaly: bodyData};
+
+    return totalData;
+}
+
+module.exports.makeSTIXData_traffic= function (table) {
+
+};
+
+module.exports.makeSTIXData_state = function (table) {
+    const headerData = {flag: table.flag, timeAgent: table.timeAgent, timezone: table.timeZone, ipAgent: table.ipAgent, nameAgent: table.nameAgent, vendorAgent:table.vendorAgent, typeAgent: '', versionAgent: '',
+        idOrganizationAgent: '', nameOperator: '', nameUnit: table.nameUnit, location: '', original: ''};
+    const bodyData = {usageCPU: table.usageCPU, usageMemory: table.usageMemory, usageDisk: table.usageDisk, tempCPU: ''};
+
+    const totalData = {header: headerData, state: bodyData};
+
+    return totalData;
 };

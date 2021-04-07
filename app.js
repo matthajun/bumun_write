@@ -12,16 +12,21 @@ const api = require('./routes/api');
 
 const stix_event = require('./service/stixInsert_event');
 const stix_anomaly = require('./service/stixInsert_anomaly');
+const stix_state = require('./service/stixInsert_state');
+
+const stix_Transmit_anomaly = require('./service/stixTransmit_anomaly');
+const stix_Transmit_event = require('./service/stixTransmit_event');
+const stix_Transmit_state = require('./service/stixTransmit_state');
 
 const winston = require('./config/winston')(module);
 
 const app = express();
 const { sequelize } = require('./models');
-require('./association');
 const makejson = require('./utils/makejson');
 
 const dotenv = require('dotenv');
 dotenv.config();
+
 
 //app.set('view engine', 'pug');
 app.set('port', process.env.PORT);
@@ -93,7 +98,11 @@ app.set('etag', false);
 app.listen(app.get('port'), () => {
   winston.info(app.get('port')+ '번 포트에서 대기중');
 });
-
+/*
 stix_event.searchAndInsert();
-
 stix_anomaly.searchAndInsert();
+stix_state.searchAndInsert();
+
+stix_Transmit_anomaly.SelectTransmit();
+stix_Transmit_event.SelectTransmit();
+stix_Transmit_state.SelectTransmit();*/

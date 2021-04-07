@@ -3,6 +3,11 @@ const Sequelize = require('sequelize');
 module.exports = class KDN_AMLY_H007 extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
+            no: {
+                type: Sequelize.INTEGER,
+                autoIncrement: true,
+                primaryKey: true,
+            },
             message_id: {
                 type: Sequelize.STRING(10),
                 allowNull: false,
@@ -84,6 +89,11 @@ module.exports = class KDN_AMLY_H007 extends Sequelize.Model {
                 type: Sequelize.STRING(30),
                 allowNull: false,
                 defaultValue: 'C',
+            },
+            trans_tag_a: {
+                type: Sequelize.STRING(30),
+                allowNull: false,
+                defaultValue: 'C',
             }
 
         }, {
@@ -98,3 +108,4 @@ module.exports = class KDN_AMLY_H007 extends Sequelize.Model {
         });
     }
 };
+

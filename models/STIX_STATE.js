@@ -19,7 +19,7 @@ module.exports = class STIX_STATE extends Sequelize.Model {
             ipAgent: {
                 type: Sequelize.STRING(10),
                 allowNull: true,
-                defaultValue: 'single',
+                defaultValue: '',
             },
             nameAgent: {
                 type: Sequelize.STRING(20),

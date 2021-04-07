@@ -17,7 +17,7 @@ module.exports = class STIX_EVENT extends Sequelize.Model {
                 defaultValue: 'KST'
             },
             ipAgent: {
-                type: Sequelize.STRING(10),
+                type: Sequelize.STRING(30),
                 allowNull: true,
                 defaultValue: 'single',
             },

@@ -4,12 +4,26 @@ const winston = require('../config/winston')(module);
 const makejson = require('../utils/makejson');
 
 const reqInsert = require('../service/reqInsert');
+const chInsert = require('../service/clickhouseInsert');
 
 router.post('/v1', async (req, res, next) => {
     try {
-        winston.debug("*************** tableName : " + req.body.tableName);
+        let tableName = req.body.tableName;
+        winston.debug("*************** tableName : " + tableName);
         let result =  {};
-        result = await reqInsert.parseAndInsert(req);
+
+        switch (tableName) {
+            case 'kdn_amly_H007':
+            case 'kdn_manag_I001':
+            case 'kdn_manag_I002':
+            case 'kdn_lgsys_L005':
+                chInsert.parseAndInsert(req);
+                break;
+
+            default:
+                result = await reqInsert.parseAndInsert(req);
+                break;
+        }
 
         if(result instanceof Error){   //Insert가 안되었을때
             throw new Error(result);

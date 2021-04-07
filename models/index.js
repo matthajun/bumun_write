@@ -14,6 +14,8 @@ const sequelize = new Sequelize(
 );
 
 db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
 
 fs
     .readdirSync(__dirname)
