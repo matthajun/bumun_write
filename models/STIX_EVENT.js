@@ -150,7 +150,7 @@ module.exports = class STIX_EVENT extends Sequelize.Model {
                 allowNull: true,
                 defaultValue: '',
             },
-            trans_tag: {
+            trans_tag_m: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
                 defaultValue: 'C',

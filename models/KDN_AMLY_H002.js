@@ -40,11 +40,6 @@ module.exports = class KDN_AMLY_H002 extends Sequelize.Model {
                 type: Sequelize.STRING(30),
                 allowNull: true,
             },
-            trans_tag_s: {
-                type: Sequelize.STRING(10),
-                allowNull: false,
-                defaultValue: 'C',
-            },
         }, {
             sequelize,
             timestamps: false,

@@ -10,9 +10,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const api = require('./routes/api');
 
-const stix_event = require('./service/stixInsert_event');
-const stix_anomaly = require('./service/stixInsert_anomaly');
-const stix_state = require('./service/stixInsert_state');
 
 const stix_Transmit_anomaly = require('./service/stixTransmit_anomaly');
 const stix_Transmit_event = require('./service/stixTransmit_event');
@@ -98,11 +95,7 @@ app.set('etag', false);
 app.listen(app.get('port'), () => {
   winston.info(app.get('port')+ '번 포트에서 대기중');
 });
-/*
-stix_event.searchAndInsert();
-stix_anomaly.searchAndInsert();
-stix_state.searchAndInsert();
 
 stix_Transmit_anomaly.SelectTransmit();
 stix_Transmit_event.SelectTransmit();
-stix_Transmit_state.SelectTransmit();*/
+stix_Transmit_state.SelectTransmit();

@@ -10,10 +10,10 @@ exports.SelectTransmit = () => {
         const tableName = process.env.STIX_EVENT;
 
         const result = db.sequelize.transaction(async (t) => {
-            let rslt = await db[tableName.toUpperCase()].findAll({where: {trans_tag : 'C'}}).then(users => {
+            let rslt = await db[tableName.toUpperCase()].findAll({where: {trans_tag_m : 'C'}}).then(users => {
                 if(users){
                     for (user of users) {
-                        user.update({trans_tag: 'E'});
+                        user.update({trans_tag_m: 'E'});
                         let selectedData = user.dataValues;
                         let value = makejson.makeSTIXData_event(selectedData);
                         let options = {
