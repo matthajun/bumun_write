@@ -8,7 +8,7 @@ module.exports = class STIX_EVENT extends Sequelize.Model {
                 allowNull: true,
             },
             timeAgent: {
-                type: Sequelize.STRING(20),
+                type: Sequelize.STRING(40),
                 allowNull: true,
             },
             timezone: {
@@ -22,7 +22,7 @@ module.exports = class STIX_EVENT extends Sequelize.Model {
                 defaultValue: 'single',
             },
             nameAgent: {
-                type: Sequelize.STRING(20),
+                type: Sequelize.STRING(40),
                 allowNull: true,
                 defaultValue: '',
             },
@@ -32,7 +32,7 @@ module.exports = class STIX_EVENT extends Sequelize.Model {
                 defaultValue: '',
             },
             typeAgent: {
-                type: Sequelize.STRING(20),
+                type: Sequelize.STRING(40),
                 allowNull: true,
                 defaultValue: '',
             },
@@ -63,6 +63,7 @@ module.exports = class STIX_EVENT extends Sequelize.Model {
             original: {
                 type: Sequelize.STRING(100),
                 allowNull: true,
+                defaultValue: '',
             },
             nameAttack: {
                 type: Sequelize.STRING(20),
@@ -71,40 +72,47 @@ module.exports = class STIX_EVENT extends Sequelize.Model {
             timeAttackStart: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
-                defaultValue: 'Alarm_time',
+                defaultValue: '',
             },
             timeAttackEnd: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
-                defaultValue: 'Alarm_time',
+                defaultValue: '',
             },
             ipAttacker: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
+                defaultValue: '',
             },
             ipVictim: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
+                defaultValue: '',
             },
             macAttacker: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
+                defaultValue: '',
             },
             macVictim: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
+                defaultValue: '',
             },
             portAttacker: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
+                defaultValue: '',
             },
             portVictim: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
+                defaultValue: '',
             },
             protocol: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
+                defaultValue: '',
             },
             ipVersion: {
                 type: Sequelize.STRING(20),

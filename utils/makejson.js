@@ -113,8 +113,8 @@ module.exports.makeResData = function (err, req){
 module.exports.makeSTIXData_event= function (table) {
     const headerData = {flag: table.flag, timeAgent: table.timeAgent, timeZone: table.timezone, ipAgent: table.ipAgent, nameAgent: table.nameAgent, vendorAgent:table.vendorAgent, typeAgent: '', versionAgent: '',
         idOrganizationAgent: table.idOrganizationAgent, nameOperator: '', nameUnit: table.nameUnit, location: '', original: table.original};
-    const bodyData = {nameAttack: table.nameAttack, timeAttackStart: '', timeAttackEnd: '', ipAttacker: table.ipAttacker, ipVictim: table.ipVictim, macAttacker: table.macAttacker, macVictim: table.macVictim,
-    portAttacker: table.portAttacker, portVictim: table.portVictim, protocol: table.protocol, ipVersion: '', levelRisk: table.levelRisk, typeAction: '', countAttack: '', idRule: '', nameModule: '', categoryModule: '', lengthPacket: '',
+    const bodyData = {nameAttack: table.nameAttack, timeAttackStart: table.timeAttackStart, timeAttackEnd: table.timeAttackEnd, ipAttacker: table.ipAttacker, ipVictim: table.ipVictim, macAttacker: table.macAttacker, macVictim: table.macVictim,
+    portAttacker: table.portAttacker, portVictim: table.portVictim, protocol: table.protocol, ipVersion: '', levelRisk: table.levelRisk, typeAction: '', countAttack: '', idRule: '', nameModule: table.nameModule, categoryModule: table.categoryModule, lengthPacket: '',
     directionAttack: ''};
 
     const totalData = {header: headerData, event: bodyData};

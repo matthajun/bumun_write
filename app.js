@@ -10,7 +10,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const api = require('./routes/api');
 
-
 const stix_Transmit_anomaly = require('./service/stixTransmit_anomaly');
 const stix_Transmit_event = require('./service/stixTransmit_event');
 const stix_Transmit_state = require('./service/stixTransmit_state');
@@ -24,11 +23,10 @@ const makejson = require('./utils/makejson');
 const dotenv = require('dotenv');
 dotenv.config();
 
-
 //app.set('view engine', 'pug');
 app.set('port', process.env.PORT);
 
-app.use(logger('dev'));
+app.use(logger(process.env.NODE_ENV !== 'production'?'dev':'combined',{stream:winston.httpLogStream}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -37,7 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', api);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
