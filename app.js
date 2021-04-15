@@ -1,4 +1,6 @@
 const createError = require('http-errors');
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -6,22 +8,18 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const api = require('./routes/api');
 
 const stix_Transmit_anomaly = require('./service/stixTransmit_anomaly');
 const stix_Transmit_event = require('./service/stixTransmit_event');
 const stix_Transmit_state = require('./service/stixTransmit_state');
+const stix_Transmit_traffic = require('./service/stixTransmit_traffic');
 
 const winston = require('./config/winston')(module);
 
 const app = express();
 const { sequelize } = require('./models');
 const makejson = require('./utils/makejson');
-
-const dotenv = require('dotenv');
-dotenv.config();
 
 //app.set('view engine', 'pug');
 app.set('port', process.env.PORT);
@@ -32,8 +30,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api', api);
 
 // catch 404 and forward to error handler
@@ -96,3 +92,4 @@ app.listen(app.get('port'), () => {
 stix_Transmit_anomaly.SelectTransmit();
 stix_Transmit_event.SelectTransmit();
 stix_Transmit_state.SelectTransmit();
+stix_Transmit_traffic.SelectTransmit();

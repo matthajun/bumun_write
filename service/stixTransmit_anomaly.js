@@ -24,17 +24,14 @@ exports.SelectTransmit = () => {
                             body: value,
                             json: true
                         };
-                        //console.log(options);
-                        httpcall.httpReq(options, async function (err, res) {
-                            if (result instanceof Error) {
-                                throw new Error(result);
-                            }
+                        httpcall.httpReq(options, async function (err) {
+                            winston.error(err.stack);
                         });
                     }
                 }
             });
             if(rslt instanceof Error){
-                throw new rslt;
+                throw new Error(rslt);
             }
         });
     })

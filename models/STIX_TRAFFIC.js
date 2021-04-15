@@ -19,7 +19,7 @@ module.exports = class STIX_TRAFFIC extends Sequelize.Model {
             ipAgent: {
                 type: Sequelize.STRING(10),
                 allowNull: true,
-                defaultValue: 'single',
+                defaultValue: '',
             },
             nameAgent: {
                 type: Sequelize.STRING(20),
@@ -53,7 +53,7 @@ module.exports = class STIX_TRAFFIC extends Sequelize.Model {
             nameUnit: {
                 type: Sequelize.STRING(10),
                 allowNull: true,
-                defaultValue: 'DANGJIN',
+                defaultValue: '',
             },
             location: {
                 type: Sequelize.STRING(20),
@@ -97,7 +97,7 @@ module.exports = class STIX_TRAFFIC extends Sequelize.Model {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            ourData: {
+            outData: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },

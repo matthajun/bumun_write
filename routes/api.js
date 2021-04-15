@@ -4,7 +4,10 @@ const winston = require('../config/winston')(module);
 const makejson = require('../utils/makejson');
 
 const reqInsert = require('../service/reqInsert');
-const chInsert = require('../service/clickhouseInsert');
+const H007 = require('../clickhouse/H007');
+const I001 = require('../clickhouse/I001');
+const I002 = require('../clickhouse/I002');
+const L005 = require('../clickhouse/L005');
 
 router.post('/v1', async (req, res, next) => {
     try {
@@ -14,10 +17,23 @@ router.post('/v1', async (req, res, next) => {
 
         switch (tableName) {
             case 'kdn_amly_H007':
+                req.body.tableName = process.env.CH_H007;
+                H007.parseAndInsert(req);
+                break;
+
             case 'kdn_manag_I001':
+                req.body.tableName = process.env.CH_I001;
+                I001.parseAndInsert(req);
+                break;
+
             case 'kdn_manag_I002':
+                req.body.tableName = process.env.CH_I002;
+                I002.parseAndInsert(req);
+                break;
+
             case 'kdn_lgsys_L005':
-                chInsert.parseAndInsert(req);
+                req.body.tableName = process.env.CH_L005;
+                L005.parseAndInsert(req);
                 break;
 
             default:

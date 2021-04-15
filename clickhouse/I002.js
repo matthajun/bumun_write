@@ -4,7 +4,7 @@ const db = require('../models');
 
 const {ClickHouse} = require('clickhouse');
 const clickhouse = new ClickHouse({
-    url: 'http://192.168.0.115',
+    url: process.env.CH_ADDRESS,
     port: 8123,
     debug: false,
     basicAuth: null,
@@ -19,18 +19,13 @@ const clickhouse = new ClickHouse({
 });
 
 module.exports.parseAndInsert = async function(req) {
-    let Array = [];
+    let Array = req.body.tableData;
     let queries = [];
     const tableName = req.body.tableName;
-    //console.log(process.env.CH_ADDRESS);
-
-    for(let data of req.body.tableData) {
-        delete data['trans_tag']; delete data['trans_tag_a']; delete data['trans_tag_e'];
-        Array.push(Object.values(data));
-    }
 
     for(let value of Array){
-        const contents = value.join('\',\'');
+        const contents = `${value.message_id}`+'\',\''+`${value.operate_info_id}`+'\',\''+`${value.send_time}`+'\',\''+`${value.unit_id}`
+            +'\',\''+`${value.tag_name}`+'\',\''+`${value.tag_value}`+'\',\''+`${value.tag_time}`+'\',\''+`${value.date_time}`;
 
         const query = `insert into dti.${tableName} VALUES (\'${contents}\')`;
         queries.push(query);

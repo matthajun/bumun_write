@@ -145,3 +145,13 @@ module.exports.makeSTIXData_state = function (table) {
 
     return totalData;
 };
+
+module.exports.makeSTIXData_traffic = function (table) {
+    const headerData = {flag: table.flag, timeAgent: table.timeAgent, timezone: table.timezone, ipAgent: table.ipAgent, nameAgent: table.nameAgent, vendorAgent:table.vendorAgent, typeAgent: '', versionAgent: '',
+        idOrganizationAgent: table.idOrganizationAgent, nameOperator: '', nameUnit: table.nameUnit, location: '', original: ''};
+    const bodyData = {ppsTotal: table.ppsTotal, bpsTotal: table.bpsTotal, ppsAccept: '', ppsDrop: '', bpsAccept: '', bpsDrop: '', inData: table.inData, outData: '', inPacket: table.inPacket, outPacket: ''};
+
+    const totalData = {header: headerData, state: bodyData};
+
+    return totalData;
+};
