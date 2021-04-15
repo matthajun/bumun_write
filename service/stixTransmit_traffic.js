@@ -1,3 +1,4 @@
+const winston = require('../config/winston')(module);
 const schedule = require('node-schedule');
 const httpcall = require('../utils/httpCall');
 const makejson = require('../utils/makejson');
