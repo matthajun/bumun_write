@@ -1,105 +1,135 @@
 const Sequelize = require('sequelize');
 
-module.exports = class STIX_ANOMALY extends Sequelize.Model {
+module.exports = class KDN_LGSYS_L006 extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
-            flag: {
+            message_id: {
                 type: Sequelize.STRING(10),
                 allowNull: true,
             },
-            timeAgent: {
+            plant_id: {
+                type: Sequelize.STRING(20),
+                allowNull: false,
+                defaultValue: 'local',
+            },
+            plant_name: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            timezone: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-                defaultValue: 'KST'
-            },
-            ipAgent: {
-                type: Sequelize.STRING(30),
-                allowNull: true,
-                defaultValue: 'single',
-            },
-            nameAgent: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-                defaultValue: '',
-            },
-            vendorAgent: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-                defaultValue: '',
-            },
-            typeAgent: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-                defaultValue: '',
-            },
-            versionAgent: {
-                type: Sequelize.STRING(20),
-                allowNull:true,
-                defaultValue: '',
-            },
-            idOrganizationAgent: {
+            machine_no: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            nameOperator: {
+            manufacturer_name: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
-                defaultValue: '',
             },
-            nameUnit: {
-                type: Sequelize.STRING(10),
-                allowNull: true,
-                defaultValue: 'DANGJIN',
-            },
-            location: {
+            log_type: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
-                defaultValue: '',
             },
-            original: {
+            log_category: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            format: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            device_id: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            device_name: {
+                type: Sequelize.STRING(50),
+                allowNull: true,
+            },
+            loged_time: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            type01: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            type02: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            type03: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            code01: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            code02: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            code03: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            value01: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            value02: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            value03: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            value04: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            value05: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            value06: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            value07: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            content01: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            content02: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            content03: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            raw: {
                 type: Sequelize.TEXT,
                 allowNull: true,
             },
-            timeStart: {
+            sent_time: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            timeEnd: {
-                type: Sequelize.STRING(20),
+            date_time: {
+                type: Sequelize.STRING(30),
                 allowNull: true,
-            },
-            candidates: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-                defaultValue: '',
-            },
-            score: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-            },
-            category: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-            },
-            description: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-            },
-            trans_tag_m: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
-                defaultValue: 'C',
             },
         }, {
             sequelize,
             timestamps: false,
             underscored: false,
-            modelName: 'STIX_ANOMALY',
-            tableName: 'stix_anomaly',
+            modelName: 'KDN_LGSYS_L006',
+            tableName: 'kdn_lgsys_L006',
             paranoid: true,
             charset: 'utf8',
             collate: 'utf8_general_ci',

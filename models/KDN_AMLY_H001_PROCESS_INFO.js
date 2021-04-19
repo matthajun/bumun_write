@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class KDN_AMLY_H004_POLICY_IP extends Sequelize.Model {
+module.exports = class KDN_AMLY_H001_PROCESS_INFO extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
             message_id: {
@@ -12,7 +12,7 @@ module.exports = class KDN_AMLY_H004_POLICY_IP extends Sequelize.Model {
                 allowNull: false,
             },
             send_time: {
-                type: Sequelize.STRING(20),
+                type: Sequelize.STRING(15),
                 allowNull: true,
             },
             confirm_code: {
@@ -20,33 +20,28 @@ module.exports = class KDN_AMLY_H004_POLICY_IP extends Sequelize.Model {
                 allowNull: false,
                 defaultValue: 'local',
             },
-            unit_id: {
+            process_id: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            make_id: {
-                type: Sequelize.STRING(20),
+            process_name: {
+                type: Sequelize.STRING(30),
                 allowNull: true,
             },
-            ip: {
-                type: Sequelize.STRING(20),
+            process_status: {
+                type: Sequelize.STRING(10),
                 allowNull: true,
             },
             date_time: {
                 type: Sequelize.STRING(30),
                 allowNull: true,
             },
-            trans_tag_bw: {
-                type: Sequelize.STRING(10),
-                allowNull: false,
-                defaultValue: 'C',
-            },
         }, {
             sequelize,
             timestamps: false,
             underscored: false,
-            modelName: 'KDN_AMLY_H004_POLICY_IP',
-            tableName: 'kdn_amly_H004_policy_ip',
+            modelName: 'KDN_AMLY_H001_PROCESS_INFO',
+            tableName: 'kdn_amly_H001_process_info',
             paranoid: true,
             charset: 'utf8',
             collate: 'utf8_general_ci',

@@ -1,34 +1,50 @@
 const Sequelize = require('sequelize');
 
-module.exports = class KDN_AMLY_H004_POLICY_IP extends Sequelize.Model {
+module.exports = class KDN_LGSYS_L002 extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
             message_id: {
                 type: Sequelize.STRING(10),
-                allowNull: false,
-            },
-            keeper_id: {
-                type: Sequelize.STRING(20),
-                allowNull: false,
-            },
-            send_time: {
-                type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            confirm_code: {
+            format: {
                 type: Sequelize.STRING(20),
                 allowNull: false,
                 defaultValue: 'local',
             },
-            unit_id: {
+            type_count: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            make_id: {
+            code_count: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            ip: {
+            value_count: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            content_count: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            desc: {
+                type: Sequelize.STRING(20),
+                allowNull: true,
+            },
+            used: {
+                type: Sequelize.STRING(10),
+                allowNull: true,
+            },
+            label: {
+                type: Sequelize.STRING(30),
+                allowNull: true,
+            },
+            keyword: {
+                type: Sequelize.STRING(50),
+                allowNull: true,
+            },
+            sent_time: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
@@ -36,17 +52,12 @@ module.exports = class KDN_AMLY_H004_POLICY_IP extends Sequelize.Model {
                 type: Sequelize.STRING(30),
                 allowNull: true,
             },
-            trans_tag_bw: {
-                type: Sequelize.STRING(10),
-                allowNull: false,
-                defaultValue: 'C',
-            },
         }, {
             sequelize,
             timestamps: false,
             underscored: false,
-            modelName: 'KDN_AMLY_H004_POLICY_IP',
-            tableName: 'kdn_amly_H004_policy_ip',
+            modelName: 'KDN_LGSYS_L002',
+            tableName: 'kdn_lgsys_L002',
             paranoid: true,
             charset: 'utf8',
             collate: 'utf8_general_ci',

@@ -5,8 +5,6 @@ const makejson = require('../utils/makejson');
 
 const reqInsert = require('../service/reqInsert');
 const H007 = require('../clickhouse/H007');
-const I001 = require('../clickhouse/I001');
-const I002 = require('../clickhouse/I002');
 const L005 = require('../clickhouse/L005');
 
 router.post('/v1', async (req, res, next) => {
@@ -18,22 +16,12 @@ router.post('/v1', async (req, res, next) => {
         switch (tableName) {
             case 'kdn_amly_H007':
                 req.body.tableName = process.env.CH_H007;
-                H007.parseAndInsert(req);
-                break;
-
-            case 'kdn_manag_I001':
-                req.body.tableName = process.env.CH_I001;
-                I001.parseAndInsert(req);
-                break;
-
-            case 'kdn_manag_I002':
-                req.body.tableName = process.env.CH_I002;
-                I002.parseAndInsert(req);
+                result = H007.parseAndInsert(req);
                 break;
 
             case 'kdn_lgsys_L005':
                 req.body.tableName = process.env.CH_L005;
-                L005.parseAndInsert(req);
+                result = L005.parseAndInsert(req);
                 break;
 
             default:

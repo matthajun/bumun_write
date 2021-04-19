@@ -40,6 +40,11 @@ module.exports = class KDN_AMLY_H004_POLICY_BL extends Sequelize.Model {
                 type: Sequelize.STRING(30),
                 allowNull: true,
             },
+            trans_tag_bw: {
+                type: Sequelize.STRING(10),
+                allowNull: false,
+                defaultValue: 'C',
+            },
         }, {
             sequelize,
             timestamps: false,
