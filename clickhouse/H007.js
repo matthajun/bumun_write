@@ -5,7 +5,7 @@ const db = require('../models');
 const {ClickHouse} = require('clickhouse');
 const clickhouse = new ClickHouse({
     url: process.env.CH_ADDRESS,
-    port: 8123,
+    port: 8125,
     debug: false,
     basicAuth: null,
     isUseGzip: false,
@@ -24,10 +24,7 @@ module.exports.parseAndInsert = async function(req) {
     const tableName = req.body.tableName;
 
     for(let value of Array){
-        const contents = `${value.message_id}`+'\',\''+`${value.keeper_id}`+'\',\''+`${value.send_time}`+'\',\''+`${value.unit_id}`
-            +'\',\''+`${value.make_id}`+'\',\''+`${value.anomaly_type}`+'\',\''+`${value.protocol_type}`+'\',\''+`${value.protocol_detail}`+'\',\''+`${value.src_ip}`+'\',\''+`${value.src_mac}`
-            +'\',\''+`${value.src_port}`+'\',\''+`${value.dst_ip}`+'\',\''+`${value.dst_mac}`+'\',\''+`${value.dst_port}`+'\',\''+`${value.payload}`+'\',\''+`${value.packet_code}`
-            +'\',\''+`${value.packet_time}`+'\',\''+`${value.date_time}`;
+        const contents = Object.values(req.body.tableData);
 
         const query = `insert into dti.${tableName} VALUES (\'${contents}\')`;
         queries.push(query);

@@ -24,6 +24,11 @@ router.post('/v1', async (req, res, next) => {
                 result = L005.parseAndInsert(req);
                 break;
 
+            case 'motie_ai_corr_result_v2':
+                req.body.tableName = process.env.CH_L005;
+                result = L005.parseAndInsert(req);
+                break;
+
             default:
                 result = await reqInsert.parseAndInsert(req);
                 break;
