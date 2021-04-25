@@ -3,8 +3,30 @@
     "username": "root",
     "password": "ctipwd1",
     "database": "dti",
-    "host": "192.168.0.115",
+    "host": "192.168.0.44",
     "port" : "13308",
     "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "ctilab1",
+    "password": "deep@!09",
+    "database": "dti",
+    "host": "192.168.7.53",
+    "port" : "13308",
+    "dialect": "mysql",
+    "pool" : {
+      "max": 30 , "min" : 10 ,
+      "idle": 1000
+    },
+    "dialectOptions": {
+      "connectTimeout" : 30000
+    }
   }
 }
