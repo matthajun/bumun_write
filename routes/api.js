@@ -6,6 +6,7 @@ const makejson = require('../utils/makejson');
 const reqInsert = require('../service/reqInsert');
 const H007 = require('../clickhouse/H007');
 const L005 = require('../clickhouse/L005');
+const ai_Insert = require('../clickhouse/ai_Insert');
 
 router.post('/v1', async (req, res, next) => {
     try {
@@ -25,8 +26,7 @@ router.post('/v1', async (req, res, next) => {
                 break;
 
             case 'motie_ai_corr_result_v2':
-                req.body.tableName = process.env.CH_L005;
-                result = L005.parseAndInsert(req);
+                result = ai_Insert.parseAndInsert(req);
                 break;
 
             default:
