@@ -11,7 +11,7 @@ const ai_Insert = require('../clickhouse/ai_Insert');
 router.post('/v1', async (req, res, next) => {
     try {
         let tableName = req.body.tableName;
-        winston.debug("*************** tableName : " + tableName);
+        winston.debug("*************** Received tableName : " + tableName);
         let result =  {};
 
         switch (tableName) {
@@ -27,6 +27,21 @@ router.post('/v1', async (req, res, next) => {
 
             case 'motie_ai_corr_result_v2':
                 result = ai_Insert.parseAndInsert(req);
+                break;
+
+            case 'motie_ai_corr_prep_v2':
+                break;
+
+            case 'motie_log_single':
+                break;
+
+            case 'motie_packet_single':
+                break;
+
+            case 'motie_ai_op_prep':
+                break;
+
+            case 'motie_ai_op_result':
                 break;
 
             default:

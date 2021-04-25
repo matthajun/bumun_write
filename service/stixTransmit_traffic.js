@@ -11,10 +11,10 @@ exports.SelectTransmit = () => {
         const tableName = process.env.STIX_TRAFFIC;
 
         const result = db.sequelize.transaction(async (t) => {
-            let rslt = await db[tableName.toUpperCase()].findAll({where: {trans_tag_m : 'C'}}).then(users => {
+            let rslt = await db[tableName.toUpperCase()].findAll({where: {trans_tag : 'C'}}).then(users => {
                 if(users){
                     for (user of users) {
-                        user.update({trans_tag_m: 'E'});
+                        user.update({trans_tag: 'E'});
                         let selectedData = user.dataValues;
                         let value = makejson.makeSTIXData_traffic(selectedData);
                         let options = {

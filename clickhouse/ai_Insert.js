@@ -24,16 +24,20 @@ module.exports.parseAndInsert = async function(req) {
     const tableName = req.body.tableName;
 
     for(let value of Array){
-        const contents = Object.values(value);
+        const contents = `${value.f_time}`+'\',\''+`${value.f_ip}`+'\',\''+`${value.f_type}`+'\','+`${value.f_single_rule}`
+            +',\''+`${value.f_hash}`+'\',\''+`${value.b_time}`+'\',\''+`${value.b_ip}`+'\',\''+`${value.b_type}`+'\','+`${value.b_single_rule}`
+            +',\''+`${value.b_hash}`+'\','+`${value.corr}`+','+`${value.ai_rmse}`+','+`${value.ai_rmse_scaled}`+',\''+`${value.ai_label}`+'\',\''+`${value.version}`;
 
         const query = `insert into dti.${tableName} VALUES (\'${contents}\')`;
         queries.push(query);
     }
+    console.log(queries);
 
     let rtnResult = {};
     try {
 
         const trans = await db.sequelize.transaction(async (t) => {
+            //console.log(queries);
             winston.info("********************************************************************************");
             winston.info("******************* CH query start *************************");
             for (const query of queries) {

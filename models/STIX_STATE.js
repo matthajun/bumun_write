@@ -82,7 +82,7 @@ module.exports = class STIX_STATE extends Sequelize.Model {
                 allowNull: true,
                 defaultValue: '',
             },
-            trans_tag_m: {
+            trans_tag: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
                 defaultValue: 'C',

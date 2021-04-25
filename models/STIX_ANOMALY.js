@@ -89,7 +89,7 @@ module.exports = class STIX_ANOMALY extends Sequelize.Model {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
-            trans_tag_m: {
+            trans_tag: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
                 defaultValue: 'C',
