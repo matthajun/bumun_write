@@ -117,6 +117,11 @@ module.exports = class MOTIE_ASSET extends Sequelize.Model {
                 allowNull: false,
                 defaultValue: 'C',
             },
+            state: {
+                type: Sequelize.STRING(50),
+                allowNull: false,
+                defaultValue: 'C',
+            },
         }, {
             sequelize,
             timestamps: false,

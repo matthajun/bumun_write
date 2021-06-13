@@ -17,70 +17,7 @@ module.exports.makeReqData = function (id){
     reqData.body = reqBody;
     return reqData;
 };
-/*
-module.exports.makeReqData_H004 = function (id, policy_type){
-    let reqData = {};
-    let reqBody = {"policy_type": policy_type };
 
-    const time = setDateTime.setDateTime();
-
-    const reqHeaderData = {"message_id": id, "keeper_id": process.env.KEEPER_ID, "send_time": time};
-    reqHeaderData.confirm_code = confirmutils.makeConfirmCode(JSON.stringify(reqBody));
-
-    reqData.header = reqHeaderData;
-    reqData.body = reqBody;
-    return reqData;
-};
-
-module.exports.makeReqData_H008 = function (id, body){
-    let reqData = {};
-    let reqBody = body;
-
-    const time = setDateTime.setDateTime();
-
-    const reqHeaderData = {"message_id": id, "keeper_id": process.env.KEEPER_ID, "send_time": time};
-    reqHeaderData.confirm_code = confirmutils.makeConfirmCode(JSON.stringify(reqBody));
-
-    reqData.header = reqHeaderData;
-    reqData.body = reqBody;
-    return reqData;
-};
-
-module.exports.makeReqData_L001 = function (id){
-    let reqData = {};
-
-    const time = setDateTime.setDateTime();
-
-    const reqHeaderData = {"message_id": id, "logger_id": ''};
-    const reqBody = {"loged_start_time": time, "loged_end_time": time};
-
-    reqData.header = reqHeaderData;
-    reqData.body = reqBody;
-    return reqData;
-};
-
-module.exports.makeReqData_L002 = function (id){
-    let reqData = {};
-
-    const reqHeaderData = {"message_id": id, "logger_id": ''};
-    const reqBody = {"format_array": ''};
-
-    reqData.header = reqHeaderData;
-    reqData.body = reqBody;
-    return reqData;
-};
-
-module.exports.makeReqData_L003 = function (id){
-    let reqData = {};
-
-    const reqHeaderData = {"message_id": id, "logger_id": ''};
-    const reqBody = {"plant_id_array": '', "device_id_array": ''};
-
-    reqData.header = reqHeaderData;
-    reqData.body = reqBody;
-    return reqData;
-};
-*/
 module.exports.makeResData = function (err, req){
     let resData={};
     let resBody={};
@@ -117,7 +54,7 @@ module.exports.makeSTIXData_event= function (table) {
     portAttacker: table.portAttacker, portVictim: table.portVictim, protocol: table.protocol, ipVersion: '', levelRisk: table.levelRisk, typeAction: '', countAttack: '', idRule: '', nameModule: table.nameModule, categoryModule: table.categoryModule, lengthPacket: '',
     directionAttack: ''};
 
-    const totalData = {header: headerData, event: bodyData};
+    const totalData = {header: headerData, Event: bodyData};
 
     return totalData;
 };
@@ -127,13 +64,9 @@ module.exports.makeSTIXData_anomaly = function (table) {
     idOrganizationAgent: table.idOrganizationAgent, nameOperator: '', nameUnit: table.nameUnit, location: '', original: table.original};
     const bodyData = {timeStart: table.timeStart, timeEnd: table.timeEnd, candidate: '', score: table.score, category: table.category, description: table.description};
 
-    const totalData = {header: headerData, anomaly: bodyData};
+    const totalData = {header: headerData, Anomaly: bodyData};
 
     return totalData;
-}
-
-module.exports.makeSTIXData_traffic= function (table) {
-
 };
 
 module.exports.makeSTIXData_state = function (table) {
@@ -141,7 +74,7 @@ module.exports.makeSTIXData_state = function (table) {
         idOrganizationAgent: '', nameOperator: '', nameUnit: table.nameUnit, location: '', original: ''};
     const bodyData = {usageCPU: table.usageCPU, usageMemory: table.usageMemory, usageDisk: table.usageDisk, tempCPU: ''};
 
-    const totalData = {header: headerData, state: bodyData};
+    const totalData = {header: headerData, State: bodyData};
 
     return totalData;
 };
@@ -151,7 +84,7 @@ module.exports.makeSTIXData_traffic = function (table) {
         idOrganizationAgent: table.idOrganizationAgent, nameOperator: '', nameUnit: table.nameUnit, location: '', original: ''};
     const bodyData = {ppsTotal: table.ppsTotal, bpsTotal: table.bpsTotal, ppsAccept: '', ppsDrop: '', bpsAccept: '', bpsDrop: '', inData: table.inData, outData: '', inPacket: table.inPacket, outPacket: ''};
 
-    const totalData = {header: headerData, state: bodyData};
+    const totalData = {header: headerData, Traffic: bodyData};
 
     return totalData;
 };

@@ -129,6 +129,11 @@ module.exports = class KDN_LGSYS_L007 extends Sequelize.Model {
                 type: Sequelize.STRING(30),
                 allowNull: true,
             },
+            trans_tag: {
+                type: Sequelize.STRING(5),
+                allowNull: false,
+                defaultValue: 'C',
+            },
         }, {
             sequelize,
             timestamps: false,

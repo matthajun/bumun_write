@@ -25,6 +25,11 @@ module.exports = class MOTIE_RULE_MAPPING extends Sequelize.Model {
                 allowNull: false,
                 defaultValue: 'C',
             },
+            state:{
+                type: Sequelize.STRING(5),
+                allowNull: false,
+                defaultValue: 'C',
+            },
         }, {
             sequelize,
             timestamps: false,

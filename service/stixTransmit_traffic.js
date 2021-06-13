@@ -5,9 +5,10 @@ const makejson = require('../utils/makejson');
 
 const sequelize = require('sequelize');
 const db = require('../models');
+const setTime = require('../utils/setDateTime');
 
 exports.SelectTransmit = () => {
-    schedule.scheduleJob('55 * * * * *', function() {
+    schedule.scheduleJob('8 * * * * *', function() {
         const tableName = process.env.STIX_TRAFFIC;
 
         const result = db.sequelize.transaction(async (t) => {
@@ -24,7 +25,12 @@ exports.SelectTransmit = () => {
                             json: true
                         };
                         httpcall.httpReq(options, async function (err) {
-                            winston.error(err.stack);
+                            let data = {
+                                date_time: setTime.setDateTimeforHistory(),
+                                tableName: 'Traffic',
+                                tableData: JSON.stringify(value)
+                            };
+                            await db['MOTIE_STIX_HISTORY'].create(data);
                         });
                     }
                 }

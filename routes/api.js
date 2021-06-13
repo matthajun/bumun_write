@@ -5,43 +5,131 @@ const makejson = require('../utils/makejson');
 
 const reqInsert = require('../service/reqInsert');
 const H007 = require('../clickhouse/H007');
-const L005 = require('../clickhouse/L005');
-const ai_Insert = require('../clickhouse/ai_Insert');
+
+const result_Insert = require('../clickhouse/corr_result_Insert');
+const prep_Insert = require('../clickhouse/corr_prep_Insert');
+const log = require('../clickhouse/log_Insert');
+const packet = require('../clickhouse/packet_Insert');
+const op_prep = require('../clickhouse/op_prep_Insert');
+const op_result = require('../clickhouse/op_result_Insert');
+const history = require('../clickhouse/history_Insert');
+
+const policyInsert = require('../service/policyInsert');
+const communiInsert = require('../service/communiInsert');
+const signaureInsert = require('../service/signatureInsert');
+const logInsert = require('../service/logInsert');
+const assetInsert = require('../service/assetInsert');
+const assetIpInsert = require('../service/assetIpInsert');
+const dataRequestInsert = require('../service/dataRequestInsert');
+
+const ruleSingle = require('../service/ruleSingleInsert');
+const ruleMulti = require('../service/ruleMultiInsert');
+const ruleMap = require('../service/ruleMapInsert');
+
+const confirmutils = require('../utils/confirmutils');
+
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, process.env.DOWNLOAD_PATH)
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+});
+const uploader = multer({storage: storage});
 
 router.post('/v1', async (req, res, next) => {
     try {
         let tableName = req.body.tableName;
+        let tableData = req.body.tableData;
         winston.debug("*************** Received tableName : " + tableName);
+        winston.debug("*************** Received Data : " + JSON.stringify(tableData));
         let result =  {};
+
+        //confirm_code check 실행
+        const reqData = req.body;
+        const reqConfirmCode = reqData.confirm_code;
+        const localMakeConfirmCode = await confirmutils.makeConfirmCode(reqData.tableData);
+
+        if (reqConfirmCode !== localMakeConfirmCode) {
+            winston.error(`우리쪽 값 ${localMakeConfirmCode} ,  받은 값 ${reqConfirmCode}`);
+            const errCode = "93";
+            throw Error(`{"res_cd":"${errCode}"}`);
+        }
 
         switch (tableName) {
             case 'kdn_amly_H007':
                 req.body.tableName = process.env.CH_H007;
-                result = H007.parseAndInsert(req);
-                break;
-
-            case 'kdn_lgsys_L005':
-                req.body.tableName = process.env.CH_L005;
-                result = L005.parseAndInsert(req);
+                result = await H007.parseAndInsert(req);
                 break;
 
             case 'motie_ai_corr_result_v2':
-                result = ai_Insert.parseAndInsert(req);
+                result = await result_Insert.parseAndInsert(req);
                 break;
 
             case 'motie_ai_corr_prep_v2':
+                result = await prep_Insert.parseAndInsert(req);
                 break;
 
-            case 'motie_log_single':
+            case 'motie_ai_single_log':
+                result = await log.parseAndInsert(req);
                 break;
 
-            case 'motie_packet_single':
+            case 'motie_ai_single_packet':
+                result = await packet.parseAndInsert(req);
                 break;
 
             case 'motie_ai_op_prep':
+                result = await op_prep.parseAndInsert(req);
                 break;
 
             case 'motie_ai_op_result':
+                result = await op_result.parseAndInsert(req);
+                break;
+
+            case 'motie_ai_history':
+                result = await history.parseAndInsert(req);
+                break;
+
+            case 'black_white_list':
+                result = await policyInsert.parseAndInsert(req);
+                break;
+
+            case 'communi_white_list':
+                result = await communiInsert.parseAndInsert(req);
+                break;
+
+            case 'motie_signature':
+                result = await signaureInsert.parseAndInsert(req);
+                break;
+
+            case 'motie_log_system':
+                result = await logInsert.parseAndInsert(req);
+                break;
+
+            case 'motie_asset':
+                result = await assetInsert.parseAndInsert(req);
+                break;
+
+            case 'motie_asset_ip':
+                result = await assetIpInsert.parseAndInsert(req);
+                break;
+
+            case 'motie_data_request':
+                result = await dataRequestInsert.parseAndInsert(req);
+                break;
+
+            case 'motie_rule_single':
+                result = await ruleSingle.parseAndInsert(req);
+                break;
+
+            case 'motie_rule_multi':
+                result = await ruleMulti.parseAndInsert(req);
+                break;
+
+            case 'motie_rule_mapping':
+                result = await ruleMap.parseAndInsert(req);
                 break;
 
             default:
@@ -56,6 +144,25 @@ router.post('/v1', async (req, res, next) => {
         }
 
     } catch (err) {
+        next(err);
+    }
+});
+
+router.post('/pcap', uploader.single('my_file'), async (req, res, next)=> {
+    try {
+        let result = {};
+
+        winston.info('******************** pcap 파일을 수신하여 저장합니다. file is downloading.********************');
+        winston.info(req.file.filename);
+
+        if(result instanceof Error){
+            throw new Error(result);
+        }else{
+            res.json({error:false});
+        }
+
+    } catch(err) {
+        res.json({error:true});
         next(err);
     }
 });

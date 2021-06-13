@@ -3,6 +3,11 @@ const Sequelize = require('sequelize');
 module.exports = class MOTIE_ASSET_IP extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
+            id: {
+                type: Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
             assetId: {
                 type: Sequelize.INTEGER,
                 allowNull: true,
@@ -53,6 +58,11 @@ module.exports = class MOTIE_ASSET_IP extends Sequelize.Model {
             },
             trans_tag: {
                 type: Sequelize.STRING(5),
+                allowNull: false,
+                defaultValue: 'C',
+            },
+            state: {
+                type: Sequelize.STRING(50),
                 allowNull: false,
                 defaultValue: 'C',
             },

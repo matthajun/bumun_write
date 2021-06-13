@@ -21,6 +21,15 @@ const app = express();
 const { sequelize } = require('./models');
 const makejson = require('./utils/makejson');
 
+const HighRank_policy = require('./policy/HighRank_policy_update');
+const HighRank_communi = require('./policy/HighRank_communi_update');
+const HighRank_signature = require('./policy/HighRank_signature');
+const HighRank_log = require('./policy/HighRank_log');
+const HighRank_DataReq = require('./policy/HighRank_dataRequest');
+
+const http = require('http');
+const https = require('https');
+
 //app.set('view engine', 'pug');
 app.set('port', process.env.PORT);
 
@@ -65,6 +74,19 @@ sequelize.sync({ force: false })
       winston.error(err.stack);
     });
 
+var protocol = 'https';
+
+if (protocol === 'https') {
+  var sslConfig = require('./config/ssl-config');
+  var options = {
+    key: sslConfig.privateKey,
+    cert: sslConfig.certificate
+  };
+  server = https.createServer(options, app).listen(process.env.PORT);
+} else {
+  server = http.createServer(app);
+}
+
 app.use((req, res, next) => {
   const error =  new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
@@ -85,11 +107,14 @@ app.use((err, req, res, next) => {
 
 app.set('etag', false);
 
-app.listen(app.get('port'), () => {
-  winston.info(app.get('port')+ '번 포트에서 대기중');
-});
 
 stix_Transmit_anomaly.SelectTransmit();
 stix_Transmit_event.SelectTransmit();
 stix_Transmit_state.SelectTransmit();
 stix_Transmit_traffic.SelectTransmit();
+
+HighRank_policy.searchAndtransm();
+HighRank_communi.searchAndtransm();
+HighRank_signature.searchAndtransm();
+HighRank_log.searchAndtransm();
+HighRank_DataReq.searchAndtransm();

@@ -5,9 +5,10 @@ const makejson = require('../utils/makejson');
 
 const sequelize = require('sequelize');
 const db = require('../models');
+const setTime = require('../utils/setDateTime');
 
 exports.SelectTransmit = () => {
-    schedule.scheduleJob('*/5 * * * *', function() {
+    schedule.scheduleJob('5 */5 * * * *', function() {
         const tableName = process.env.STIX_ANOMALY;
 
         const result = db.sequelize.transaction(async (t) => {
@@ -16,17 +17,15 @@ exports.SelectTransmit = () => {
                     for (user of users) {
                         user.update({trans_tag: 'E'});
                         let selectedData = user.dataValues;
-
                         let value = makejson.makeSTIXData_anomaly(selectedData);
 
-                        let options = {
-                            uri: process.env.SANGWI_ADDRESS,
-                            method: 'POST',
-                            body: value,
-                            json: true
-                        };
-                        httpcall.httpReq(options, async function (err) {
-                            winston.error(err.stack);
+                        httpcall.Call('post', process.env.SANGWI_ADDRESS, value, async function (err) {
+                            let data = {
+                                date_time: setTime.setDateTimeforHistory(),
+                                tableName: 'Anomaly',
+                                tableData: JSON.stringify(value)
+                            };
+                            await db['MOTIE_STIX_HISTORY'].create(data);
                         });
                     }
                 }

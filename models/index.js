@@ -5,8 +5,9 @@ const fs = require('fs');
 const path = require('path');
 const winston = require('../config/winston')(module);
 
-config.logging = msg => winston.info(msg);
-config.logQueryParameters = true;
+//config.logging = msg => winston.info(msg);
+config.logQueryParameters = false;
+config.logging = false;
 // test
 const db = {};
 const sequelize = new Sequelize(
@@ -26,7 +27,11 @@ fs
         const Model = require(path.join(__dirname, file));
         db[Model.name] = Model;
         Model.init(sequelize);
-        if(Model.name !=='User')Model.removeAttribute('id');
+        if(Model.name.indexOf('WHITE') === -1 && Model.name.indexOf('SIGNATURE') === -1
+            && Model.name.indexOf('LOG') === -1 && Model.name.indexOf('ASSET_IP') === -1
+            && Model.name.indexOf('DATA_REQUEST') === -1)
+            Model.removeAttribute('id');
+
     }catch (e) {
         console.log(e);
     }

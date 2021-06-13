@@ -26,7 +26,9 @@ module.exports.parseAndInsert = async function(req){
                     }
                 }else { //tableData가 Array
                     for (const chileTableData of tableInfo.tableData) {
-                        chileTableData.trans_tag = 'C';
+                        if(chileTableData.trans_tag && !chileTableData.state) {
+                            delete chileTableData.trans_tag;
+                        }
                         let rslt = await db[tableInfo.tableName.toUpperCase()].create(chileTableData, {transaction: t});
                         //rslt = new Error("임의 발생");
                         if (rslt instanceof Error) {
