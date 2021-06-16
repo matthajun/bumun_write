@@ -9,6 +9,17 @@ module.exports.parseAndInsert = async function(req){
     const reqBodyData = req.body.tableData;
     const tableInfos = [];
 
+    if (Array.isArray(reqBodyData)){
+        for (Data of reqBodyData){
+            if (Data.trans_tag)
+                delete Data.trans_tag;
+        }
+    }
+    else {
+        if (reqBodyData.trans_tag)
+            delete reqBodyData.trans_tag;
+    }
+
     tableInfos.push({tableName: masterTableName, tableData: reqBodyData});
 
     let rtnResult = {};

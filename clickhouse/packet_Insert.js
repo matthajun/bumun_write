@@ -1,6 +1,4 @@
 const winston = require('../config/winston')(module);
-const sequelize = require('sequelize');
-const db = require('../models');
 
 const {ClickHouse} = require('clickhouse');
 const clickhouse = new ClickHouse({
@@ -25,7 +23,7 @@ module.exports.parseAndInsert = async function(req) {
 
     for(let value of Array){
         const contents = `${value.time}`+'\',\''+`${value.ip}`+'\',\''+`${value.type}`+'\','+`${value.single_rule}`+',\''+`${value.hash}`+'\',\''+`${value.id}`
-            +'\',\''+`${value.version}`;
+            +'\',\''+`${value.milli_time}`+'\',\''+`${value.version}`;
 
         const query = `insert into dti.${tableName} VALUES (\'${contents}\')`;
         queries.push(query);
@@ -33,17 +31,11 @@ module.exports.parseAndInsert = async function(req) {
 
     let rtnResult = {};
     try {
-
-        const trans = await db.sequelize.transaction(async (t) => {
-            //console.log(queries);
-            winston.info("********************************************************************************");
             winston.info("******************* CH query start *************************");
             for (const query of queries) {
                 const r = await clickhouse.query(query).toPromise();
             }
-            winston.info("********************************************************************************");
             winston.info("******************* CH query end *************************");
-        })
 
     } catch (error) {
         winston.error(error.stack);

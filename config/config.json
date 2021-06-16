@@ -1,5 +1,4 @@
 {
-
   "development": {
     "username": "ctilab1",
     "password": "deep@!09",
@@ -8,10 +7,10 @@
     "port" : "13308",
     "dialect": "mysql",
     "pool": {
-      "max": 30,
-      "min": 10,
-      "idle": 12000,
-      "acquire": 120000
+      "max": 100,
+      "min": 0,
+      "idle": 15000,
+      "acquire": 200000
     },
     "dialectOptions": {
       "connectTimeout": 30000

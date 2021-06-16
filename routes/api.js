@@ -44,7 +44,6 @@ router.post('/v1', async (req, res, next) => {
         let tableName = req.body.tableName;
         let tableData = req.body.tableData;
         winston.debug("*************** Received tableName : " + tableName);
-        winston.debug("*************** Received Data : " + JSON.stringify(tableData));
         let result =  {};
 
         //confirm_code check 실행
@@ -93,42 +92,52 @@ router.post('/v1', async (req, res, next) => {
                 break;
 
             case 'black_white_list':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await policyInsert.parseAndInsert(req);
                 break;
 
             case 'communi_white_list':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await communiInsert.parseAndInsert(req);
                 break;
 
             case 'motie_signature':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await signaureInsert.parseAndInsert(req);
                 break;
 
             case 'motie_log_system':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await logInsert.parseAndInsert(req);
                 break;
 
             case 'motie_asset':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await assetInsert.parseAndInsert(req);
                 break;
 
             case 'motie_asset_ip':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await assetIpInsert.parseAndInsert(req);
                 break;
 
             case 'motie_data_request':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await dataRequestInsert.parseAndInsert(req);
                 break;
 
             case 'motie_rule_single':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await ruleSingle.parseAndInsert(req);
                 break;
 
             case 'motie_rule_multi':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await ruleMulti.parseAndInsert(req);
                 break;
 
             case 'motie_rule_mapping':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await ruleMap.parseAndInsert(req);
                 break;
 
@@ -147,7 +156,7 @@ router.post('/v1', async (req, res, next) => {
         next(err);
     }
 });
-
+/*
 router.post('/pcap', uploader.single('my_file'), async (req, res, next)=> {
     try {
         let result = {};
@@ -166,5 +175,5 @@ router.post('/pcap', uploader.single('my_file'), async (req, res, next)=> {
         next(err);
     }
 });
-
+*/
 module.exports = router;

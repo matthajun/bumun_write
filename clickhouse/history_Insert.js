@@ -1,6 +1,4 @@
 const winston = require('../config/winston')(module);
-const sequelize = require('sequelize');
-const db = require('../models');
 
 const {ClickHouse} = require('clickhouse');
 const clickhouse = new ClickHouse({
@@ -20,18 +18,18 @@ const clickhouse = new ClickHouse({
 
 module.exports.parseAndInsert = async function(req) {
     let Array = req.body.tableData;
-    let queries = [];
+    let contents = {};
+    let query = '';
+    let r ={};
     const tableName = req.body.tableName;
     winston.info("******************* CH query start *************************");
 
     for(let value of Array) {
-        const contents = `${value.model_id}` + ',\'' + `${value.model_type}` + '\',\'' + `${value.train_time}` + '\',\'' + `${value.validation_time}`
+        contents = `${value.model_id}` + ',\'' + `${value.model_type}` + '\',\'' + `${value.train_time}` + '\',\'' + `${value.validation_time}`
             + '\',\'' + `${value.version}` + '\',' + `${value.loss}` + ',' + `${value.epoch}` + ',[' + `${value.data_shape}`;
 
-        const query = `insert into dti.${tableName} VALUES (${contents}])`;
+        query = `insert into dti.${tableName} VALUES (${contents}])`;
 
-        winston.info("******************* CH query start *************************");
-        const r = await clickhouse.query(query).toPromise();
-        winston.info("******************* CH query end *************************");
+        r = await clickhouse.query(query).toPromise();
     }
 };

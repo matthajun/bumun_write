@@ -1,6 +1,4 @@
 const winston = require('../config/winston')(module);
-const sequelize = require('sequelize');
-const db = require('../models');
 
 const {ClickHouse} = require('clickhouse');
 const clickhouse = new ClickHouse({
@@ -30,7 +28,7 @@ module.exports.parseAndInsert = async function(req) {
             +'\',\'' +`${value.type02}`+'\',\''+`${value.type03}`+'\',\''+`${value.code01}`+'\',\''+`${value.code02}`+'\',\''+`${value.code03}`
             +'\',\'' +`${value.value01}`+'\',\''+`${value.value02}`+'\',\''+`${value.value03}`+'\',\''+`${value.value04}`+'\',\''+`${value.value05}`
             +'\',\'' +`${value.value06}`+'\',\''+`${value.value07}`+'\',\''+`${value.event_info}`+'\',\''+`${value.stat_time}`+'\',\''+`${value.sent_time}`
-            +'\',\'' +`${value.date_time}`+'\',\''+`${value.time}`+'\',\''+`${value.single_rule_log}`+'\',\''+`${value.ip_address}`+'\',\''+`${value.single_rule}`
+            +'\',\'' +`${value.date_time}`+'\',\''+`${value.time}`+'\',\''+`${value.milli_time}`+'\',\''+`${value.single_rule_log}`+'\',\''+`${value.ip_address}`+'\',\''+`${value.single_rule}`
             +'\',\'' +`${value.keeper_id}`+'\',\''+`${value.send_time}`+'\',\''+`${value.unit_id}`+'\',\''+`${value.make_id}`+'\',\''+`${value.anomaly_type}`
             +'\',\'' +`${value.protocol_type}`+'\',\''+`${value.protocol_detail}`+'\',\''+`${value.src_ip}`+'\',\''+`${value.src_mac}`+'\',\''+`${value.src_port}`
             +'\',\'' +`${value.dst_ip}`+'\',\''+`${value.dst_mac}`+'\',\''+`${value.dst_port}`+'\',\''+`${value.payload}`+'\',\''+`${value.packet_code}`
@@ -42,17 +40,11 @@ module.exports.parseAndInsert = async function(req) {
 
     let rtnResult = {};
     try {
-
-        const trans = await db.sequelize.transaction(async (t) => {
-            //console.log(queries);
-            winston.info("********************************************************************************");
             winston.info("******************* CH query start *************************");
             for (const query of queries) {
                 const r = await clickhouse.query(query).toPromise();
             }
-            winston.info("********************************************************************************");
-            winston.info("******************* CH query end *************************");
-        })
+            winston.info("******************* CH query end *************************")
 
     } catch (error) {
         winston.error(error.stack);
