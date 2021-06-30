@@ -162,7 +162,7 @@ router.post('/v1', async (req, res, next) => {
         next(err);
     }
 });
-/*
+
 router.post('/pcap', uploader.single('my_file'), async (req, res, next)=> {
     try {
         let result = {};
@@ -181,5 +181,5 @@ router.post('/pcap', uploader.single('my_file'), async (req, res, next)=> {
         next(err);
     }
 });
-*/
+
 module.exports = router;

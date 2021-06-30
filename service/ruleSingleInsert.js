@@ -16,7 +16,7 @@ module.exports.parseAndInsert = async function(req){
         case 'U' :
             try {
                 const result = await db.sequelize.transaction(async (t) => {
-                    winston.info("******************* Update start *************************");
+                    winston.info("************************* Update start *************************");
 
                     //Data가 단일
                     let rslt = await db[masterTableName.toUpperCase()].upsert({
