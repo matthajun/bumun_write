@@ -23,7 +23,7 @@ module.exports.parseAndInsert = async function(req){
                     let rslt = await db[masterTableName.toUpperCase()].upsert({id: Data.id, stationId:Data.stationId, powerGenId: Data.powerGenId, unit: Data.unit,
                         make:Data.make, name: Data.name, protocolType: Data.protocolType, detailProtocol: Data.detailProtocol, srcIp: Data.srcIp, dstIp: Data.dstIp,
                         srcPort: Data.srcPort, dstPort: Data.dstPort, state: 'E', fstDttm: Data.fstDttm, lstDttm: Data.lstDttm,
-                        fstUser: Data.fstUser, lstUser: Data.lstUser},{id: Data.id}).then(
+                        fstUser: Data.fstUser, sanGubun: Data.sanGubun, lstUser: Data.lstUser},{id: Data.id}).then(
                         () => {
                             winston.info('upsert 완료!');
                         });
@@ -58,7 +58,7 @@ module.exports.parseAndInsert = async function(req){
                     let rslt = await db[masterTableName.toUpperCase()].upsert({id: Data.id, stationId:Data.stationId, powerGenId: Data.powerGenId, unit: Data.unit,
                         make:Data.make, name: Data.name, protocolType: Data.protocolType, detailProtocol: Data.detailProtocol, srcIp: Data.srcIp, dstIp: Data.dstIp,
                         srcPort: Data.srcPort, dstPort: Data.dstPort, state: 'DE', fstDttm: Data.fstDttm, lstDttm: Data.lstDttm,
-                        fstUser: Data.fstUser, lstUser: Data.lstUser},{id: Data.id}).then(
+                        fstUser: Data.fstUser, sanGubun: Data.sanGubun, lstUser: Data.lstUser},{id: Data.id}).then(
                         () => {
                             winston.info('딜리트 완료!');
                         }

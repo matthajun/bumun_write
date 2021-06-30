@@ -5,6 +5,7 @@ const makejson = require('../utils/makejson');
 
 const reqInsert = require('../service/reqInsert');
 const H007 = require('../clickhouse/H007');
+const I002 = require('../clickhouse/I002');
 
 const result_Insert = require('../clickhouse/corr_result_Insert');
 const prep_Insert = require('../clickhouse/corr_prep_Insert');
@@ -58,6 +59,11 @@ router.post('/v1', async (req, res, next) => {
         }
 
         switch (tableName) {
+            case 'motie_manag_I002':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                result = await I002.parseAndInsert(req);
+                break;
+
             case 'kdn_amly_H007':
                 req.body.tableName = process.env.CH_H007;
                 result = await H007.parseAndInsert(req);

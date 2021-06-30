@@ -12,52 +12,52 @@ module.exports.parseAndInsert = async function(req){
     const Data = req.body.tableData;
     let rtnResult = {};
 
-        switch (Data.state) {
-            case 'U' :
-                try {
-                    const result = await db.sequelize.transaction(async (t) => {
-                        winston.info("******************* Update start *************************");
+    switch (Data.state) {
+        case 'U' :
+            try {
+                const result = await db.sequelize.transaction(async (t) => {
+                    winston.info("******************* Update start *************************");
 
-                        //Data가 단일
-                        let rslt = await db[masterTableName.toUpperCase()].upsert({
-                            ruleId: Data.ruleId,
-                            ruleName: Data.ruleName,
-                            stationId: Data.stationId,
-                            powerGenId: Data.powerGenId,
-                            ruleCategory: Data.ruleCategory,
-                            ruleInfo: Data.ruleInfo,
-                            chk: Data.chk,
-                            ruleQuery: Data.ruleQuery,
-                            alarmYn: Data.alarmYn,
-                            fstUser: Data.fstUser,
-                            fstDttm: Data.fstDttm,
-                            lstUser: Data.lstUser,
-                            lstDttm: Data.lstDttm,
-                            ruleGubn: Data.ruleGubn,
-                            ruleType: Data.ruleType,
-                            trans_tag: 'E',
-                            state: 'E'
-                        }, {id: Data.id}).then(
-                            () => {
-                                winston.info('upsert 완료!');
-                            });
+                    //Data가 단일
+                    let rslt = await db[masterTableName.toUpperCase()].upsert({
+                        ruleId: Data.ruleId,
+                        ruleName: Data.ruleName,
+                        stationId: Data.stationId,
+                        powerGenId: Data.powerGenId,
+                        ruleCategory: Data.ruleCategory,
+                        ruleInfo: Data.ruleInfo,
+                        chk: Data.chk,
+                        ruleQuery: Data.ruleQuery,
+                        alarmYn: Data.alarmYn,
+                        fstUser: Data.fstUser,
+                        fstDttm: Data.fstDttm,
+                        lstUser: Data.lstUser,
+                        lstDttm: Data.lstDttm,
+                        ruleGubn: Data.ruleGubn,
+                        ruleType: Data.ruleType,
+                        trans_tag: 'E',
+                        state: 'E'
+                    }, {id: Data.id}).then(
+                        () => {
+                            winston.info('upsert 완료!');
+                        });
 
-                        if (rslt instanceof Error) {
-                            winston.error("************* 룰싱글 업데이트 에러 발생!! **************");
-                            throw new rslt;
-                        }
-                    });
-                } catch (error) {
-                    // If the execution reaches this line, an error occurred.
-                    // The transaction has already been rolled back automatically by Sequelize!
-                    winston.error("************* 룰싱글 업데이트 에러 발생!! **************");
-                    winston.error(error.stack);
-                    rtnResult = error;
-                } finally {
-                    return rtnResult;
-                }
+                    if (rslt instanceof Error) {
+                        winston.error("************* 룰싱글 업데이트 에러 발생!! **************");
+                        throw new rslt;
+                    }
+                });
+            } catch (error) {
+                // If the execution reaches this line, an error occurred.
+                // The transaction has already been rolled back automatically by Sequelize!
+                winston.error("************* 룰싱글 업데이트 에러 발생!! **************");
+                winston.error(error.stack);
+                rtnResult = error;
+            } finally {
+                return rtnResult;
+            }
 
-                break;
+            break;
 
             case 'D' :
                 try {
@@ -120,5 +120,4 @@ module.exports.parseAndInsert = async function(req){
 
                 break;
         }
-
 };
