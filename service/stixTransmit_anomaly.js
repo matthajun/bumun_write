@@ -19,7 +19,7 @@ exports.SelectTransmit = () => {
                         let selectedData = user.dataValues;
                         let value = makejson.makeSTIXData_anomaly(selectedData);
 
-                        httpcall.Call('post', process.env.SANGWI_ADDRESS, value, async function (err) {
+                        httpcall.Call('post', process.env.SANGWI_ADDRESS, value, async function (err, res) {
                             let data = {
                                 date_time: setTime.setDateTimeforHistory(),
                                 tableName: 'Anomaly',

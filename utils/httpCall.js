@@ -21,7 +21,7 @@ exports.Rest = function (method, url, headers, query, callback) {
             strictSSL: false,
             rejectUnauthorized: false,
             followRedirect: true,
-            maxRedirects: 10,
+            maxRedirects: 5,
             body: query,
             json: true
         }, function (error, response, body) {
@@ -45,6 +45,8 @@ exports.Rest = function (method, url, headers, query, callback) {
             timeout: 30000,
             strictSSL: false,
             rejectUnauthorized: false,
+            followRedirect: true,
+            maxRedirects: 5,
             body: query,
             json: true
         }, function (error, response, body) {

@@ -5,12 +5,14 @@ const reqInsert = require('./reqInsert');
 const _ = require('loadsh');
 
 let masterTableName = "";
+let tableName = "";
 
 module.exports.parseAndInsert = async function(req){
     winston.debug(JSON.stringify(req.body.tableData));
     masterTableName =  req.body.tableName;
     const Data = req.body.tableData;
     let rtnResult = {};
+    tableName = 'motie_rule_mapping';
 
     switch (Data.state) {
         case 'U' :
@@ -91,6 +93,17 @@ module.exports.parseAndInsert = async function(req){
                         if (rslt instanceof Error) {
                             winston.error("************* 룰싱글 업데이트 에러 발생!! **************");
                             throw new rslt;
+                        }
+                        else {
+                            let rslt_D = await db[tableName.toUpperCase()].findAll({where: {ruleId: Data.ruleId}}).then(async users => {
+                                if (users.length) {
+                                    winston.info("************* 단위위협시스템에서 단일 룰이 삭제되어, 상관 룰을 수정합니다. ***************");
+                                    winston.info("************* 삭제된 단일 룰 번호 : " + Data.ruleId + " ***************");
+                                    for (user of users){
+                                        await user.update({multiId: null});
+                                    }
+                                }
+                            });
                         }
                     });
                 } catch (error) {

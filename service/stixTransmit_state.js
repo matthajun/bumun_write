@@ -18,13 +18,8 @@ exports.SelectTransmit = () => {
                         user.update({trans_tag: 'E'});
                         let selectedData = user.dataValues;
                         let value = makejson.makeSTIXData_state(selectedData);
-                        let options = {
-                            uri: process.env.SANGWI_ADDRESS,
-                            method: 'POST',
-                            body: value,
-                            json: true
-                        };
-                        httpcall.httpReq(options, async function (err) {
+
+                        httpcall.Call('post', process.env.SANGWI_ADDRESS, value, async function (err, res) {
                             let data = {
                                 date_time: setTime.setDateTimeforHistory(),
                                 tableName: 'State',
