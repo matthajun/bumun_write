@@ -40,6 +40,9 @@ const storage = multer.diskStorage({
 });
 const uploader = multer({storage: storage});
 
+const L005 = require('../clickhouse/L005');
+const L009 = require('../clickhouse/L009');
+
 router.post('/v1', async (req, res, next) => {
     try {
         let tableName = req.body.tableName;
@@ -62,11 +65,6 @@ router.post('/v1', async (req, res, next) => {
             case 'motie_manag_I002':
                 winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await I002.parseAndInsert(req);
-                break;
-
-            case 'kdn_amly_H007':
-                req.body.tableName = process.env.CH_H007;
-                result = await H007.parseAndInsert(req);
                 break;
 
             case 'motie_ai_corr_result_v2':
@@ -146,6 +144,31 @@ router.post('/v1', async (req, res, next) => {
                 winston.debug("*************** Received Data : " + JSON.stringify(tableData));
                 result = await ruleMap.parseAndInsert(req);
                 break;
+
+
+                //단-부 트랜잭션 데이터 들어올 시
+            case 'MOTIE_FAIL_H007':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                result = await H007.parseAndInsert(req);
+                break;
+
+            case 'MOTIE_FAIL_L005':
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                result = await L005.parseAndInsert(req);
+                break;
+
+            case 'MOTIE_FAIL_L009':
+                req.body.tableName = process.env.CH_L009;
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                result = await L009.parseAndInsert(req);
+                break;
+
+            case 'MOTIE_FAIL_L011':
+                req.body.tableName = process.env.CH_L011;
+                winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                result = await L009.parseAndInsert(req);
+                break;
+
 
             default:
                 result = await reqInsert.parseAndInsert(req);

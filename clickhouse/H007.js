@@ -1,4 +1,5 @@
 const winston = require('../config/winston')(module);
+const setDateTime = require('../utils/setDateTime');
 
 const {ClickHouse} = require('clickhouse');
 const clickhouse = new ClickHouse({
@@ -19,9 +20,11 @@ const clickhouse = new ClickHouse({
 module.exports.parseAndInsert = async function(req) {
     let Array = req.body.tableData;
     let queries = [];
-    const tableName = req.body.tableName;
+    const tableName = process.env.CH_H007;
 
     for(let value of Array){
+        value.date_time = setDateTime.setDateTime();
+
         const contents = `${value.message_id}`+'\',\''+`${value.keeper_id}`+'\',\''+`${value.send_time}`+'\',\''+`${value.anomaly_seq}`+'\',\''+`${value.unit_id}`
             +'\',\''+`${value.make_id}`+'\',\''+`${value.anomaly_type}`+'\',\''+`${value.protocol_type}`+'\',\''+`${value.protocol_detail}`+'\',\''+`${value.src_ip}`+'\',\''+`${value.src_mac}`
             +'\',\''+`${value.src_port}`+'\',\''+`${value.dst_ip}`+'\',\''+`${value.dst_mac}`+'\',\''+`${value.dst_port}`+'\',\''+`${value.payload}`+'\',\''+`${value.packet_code}`

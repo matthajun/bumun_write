@@ -12,7 +12,7 @@ module.exports.parseAndInsert = async function(req){
     masterTableName =  req.body.tableName;
     const Data = req.body.tableData;
     let rtnResult = {};
-    tableName = 'motie_rule_mapping';
+    tableName = 'sect_rule_mapping';
 
     switch (Data.state) {
         case 'U' :
