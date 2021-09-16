@@ -17,6 +17,7 @@ module.exports.searchAndtransm = async function() {
                 let rslt = await db[tableName.toUpperCase()].findAll({where: {state: '200'}}).then(async users => {
                     if (users.length) {
                         for (user of users) {
+                            await user.update({state: '201', stateValue: '200'});
                             let data = {};
                             data = user.dataValues;
                             if(data) {
@@ -25,7 +26,6 @@ module.exports.searchAndtransm = async function() {
                                 makereq.highrankPush(tableInfo);
                                 winston.info("********************* DateRequest update end *************************");
                             }
-                            await user.update({state: '201', stateValue: '201'});
                         }
                     }
                 });

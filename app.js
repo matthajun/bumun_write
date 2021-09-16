@@ -10,11 +10,6 @@ const session = require('express-session');
 
 const api = require('./routes/api');
 
-const stix_Transmit_anomaly = require('./service/stixTransmit_anomaly');
-const stix_Transmit_event = require('./service/stixTransmit_event');
-const stix_Transmit_state = require('./service/stixTransmit_state');
-const stix_Transmit_traffic = require('./service/stixTransmit_traffic');
-
 const winston = require('./config/winston')(module);
 
 const app = express();
@@ -30,7 +25,6 @@ const HighRank_DataReq = require('./policy/HighRank_dataRequest');
 const http = require('http');
 const https = require('https');
 
-//app.set('view engine', 'pug');
 app.set('port', process.env.PORT);
 
 app.use(logger(process.env.NODE_ENV !== 'production'?'dev':'combined',{stream:winston.httpLogStream}));
@@ -96,7 +90,6 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
@@ -106,12 +99,6 @@ app.use((err, req, res, next) => {
 });
 
 app.set('etag', false);
-
-
-stix_Transmit_anomaly.SelectTransmit();
-stix_Transmit_event.SelectTransmit();
-stix_Transmit_state.SelectTransmit();
-stix_Transmit_traffic.SelectTransmit();
 
 HighRank_policy.searchAndtransm();
 HighRank_communi.searchAndtransm();

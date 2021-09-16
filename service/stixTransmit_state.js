@@ -31,7 +31,7 @@ exports.SelectTransmit = () => {
                 }
             });
             if(rslt instanceof Error){
-                throw new Erroe(rslt);
+                throw new Error(rslt);
             }
         });
     })
