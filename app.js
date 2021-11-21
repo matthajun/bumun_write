@@ -100,8 +100,8 @@ app.use((err, req, res, next) => {
 
 app.set('etag', false);
 
-HighRank_policy.searchAndtransm();
-HighRank_communi.searchAndtransm();
-HighRank_signature.searchAndtransm();
-HighRank_log.searchAndtransm();
-HighRank_DataReq.searchAndtransm();
+//HighRank_policy.searchAndtransm();
+//HighRank_communi.searchAndtransm();
+//HighRank_signature.searchAndtransm();
+//HighRank_log.searchAndtransm();
+//HighRank_DataReq.searchAndtransm();

@@ -7,3 +7,7 @@ module.exports.setDateTime = function () {
 module.exports.setDateTimeforHistory = function () {
     return moment().format("YYYY.MM.DD, HH:mm:ss");
 };
+
+module.exports.setDateTimeforEvent = function () {
+    return moment().format("YYYY-MM-DD HH:mm:ss");
+};

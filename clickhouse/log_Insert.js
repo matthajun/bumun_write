@@ -1,4 +1,6 @@
 const winston = require('../config/winston')(module);
+const setDateTime = require('../utils/setDateTime');
+const Event_history = require('./Event_history');
 
 const {ClickHouse} = require('clickhouse');
 const clickhouse = new ClickHouse({
@@ -31,12 +33,14 @@ module.exports.parseAndInsert = async function(req) {
 
     let rtnResult = {};
     try {
-            winston.info("******************* CH query start *************************");
-            for (const query of queries) {
-                const r = await clickhouse.query(query).toPromise();
-            }
-            winston.info("******************* CH query end *************************");
+        winston.info("******************* CH query start *************************");
+        for (const query of queries) {
+            const r = await clickhouse.query(query).toPromise();
+        }
+        winston.info("******************* CH query end *************************");
 
+        const data = {date_time: setDateTime.setDateTimeforEvent(), table_name: tableName, powergen_id: 'EWP', id: 'DS_001'};
+        Event_history.parseAndInsert(data);
     } catch (error) {
         winston.error(error.stack);
         rtnResult = error;
