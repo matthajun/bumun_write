@@ -49,6 +49,7 @@ router.post('/v1', async (req, res, next) => {
         let tableData = req.body.tableData;
         winston.debug("*************** Received tableName : " + tableName);
 
+        //운영정보 데이터들의 경우 로그를 남기지 않음
         if(tableName !== 'motie_ai_op_result'){
             winston.debug(JSON.stringify(req.body));
         }
