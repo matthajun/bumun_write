@@ -3,7 +3,7 @@
     "username": "ctilab1",
     "password": "deep@!09",
     "database": "dti",
-    "host": "192.168.0.44",
+    "host": "211.115.206.7",
     "port" : "13308",
     "dialect": "mysql",
     "pool": {
@@ -27,7 +27,7 @@
     "username": "ctilab1",
     "password": "deep@!09",
     "database": "dti",
-    "host": "192.168.7.53",
+    "host": "211.115.206.7",
     "port" : "13308",
     "dialect": "mysql",
     "pool" : {

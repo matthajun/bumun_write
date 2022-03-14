@@ -16,11 +16,11 @@ const app = express();
 const { sequelize } = require('./models');
 const makejson = require('./utils/makejson');
 
-const HighRank_policy = require('./policy/HighRank_policy_update');
-const HighRank_communi = require('./policy/HighRank_communi_update');
-const HighRank_signature = require('./policy/HighRank_signature');
-const HighRank_log = require('./policy/HighRank_log');
-const HighRank_DataReq = require('./policy/HighRank_dataRequest');
+// const HighRank_policy = require('./policy/HighRank_policy_update');
+// const HighRank_communi = require('./policy/HighRank_communi_update');
+// const HighRank_signature = require('./policy/HighRank_signature');
+// const HighRank_log = require('./policy/HighRank_log');
+// const HighRank_DataReq = require('./policy/HighRank_dataRequest');
 
 const http = require('http');
 const https = require('https');
@@ -28,8 +28,16 @@ const https = require('https');
 app.set('port', process.env.PORT);
 
 app.use(logger(process.env.NODE_ENV !== 'production'?'dev':'combined',{stream:winston.httpLogStream}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+//json 수신 용량 확장 설정 (22.3.14)
+app.use(express.json({
+  limit : '100mb'
+}));
+app.use(express.urlencoded({
+  limit : '100mb',
+  extended: false
+}));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -62,7 +70,7 @@ app.use(session({
 
 sequelize.sync({ force: false })
     .then(() => {
-      winston.info('success db connect ');
+      winston.info('success db connect (ver. 22 03 30) ');
     })
     .catch((err) => {
       winston.error(err.stack);
@@ -87,9 +95,6 @@ app.use((req, res, next) => {
   next(error);
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
-
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
@@ -99,6 +104,8 @@ app.use((err, req, res, next) => {
 });
 
 app.set('etag', false);
+
+//보안정책관련 기능 사용 중지,  21.11부터
 
 //HighRank_policy.searchAndtransm();
 //HighRank_communi.searchAndtransm();

@@ -16,6 +16,7 @@ const clickhouse = new ClickHouse({
     },
 });
 
+//이벤트 AI 결과데이터 수신 -> insert 기능 부분
 module.exports.parseAndInsert = async function(data) {
     let rtnResult = {};
     const contents = `${data.date_time}`+'\',\''+`${data.table_name}`+'\',\''+`${data.powergen_id}`+'\',\''+`${data.id}`;
