@@ -48,6 +48,11 @@ router.post('/v1', async (req, res, next) => {
         let tableName = req.body.tableName;
         let tableData = req.body.tableData;
         winston.debug("*************** Received tableName : " + tableName);
+
+        if(tableName !== 'motie_ai_op_result'){
+            winston.debug(JSON.stringify(req.body));
+        }
+
         let result =  {};
 
         //confirm_code check 실행
