@@ -26,11 +26,11 @@ const uploader = multer({storage: storage});
 router.post('/v1', async (req, res, next) => {
     try {
         let tableName = req.body.tableName;
-        let tableData = req.body.tableData;
+        //let tableData = req.body.tableData;
         winston.debug("*************** Received tableName : " + tableName);
 
-        //운영정보 데이터들의 경우 로그를 남기지 않음
-        if(tableName !== 'motie_ai_op_result'){
+        //운영정보 데이터들의 경우 로그를 남기지 않음 + 대용량의 경우에도 로그를 남기지 않는다.
+        if(tableName !== 'motie_ai_op_result' && !req.body.bigData_tag){
             winston.debug(JSON.stringify(req.body));
         }
 
@@ -47,77 +47,83 @@ router.post('/v1', async (req, res, next) => {
             throw Error(`{"res_cd":"${errCode}"}`);
         }
 
-        switch (tableName) {
-            case 'motie_ai_corr_result_v2':
-                result = await result_Insert.parseAndInsert(req);
-                break;
+        if (req.body.bigData_tag && req.body.bigData_tag === 'Y') { //데이터 전송 건수가 1만건 이상일 경우
+            winston.info("*************** 대용량 데이터가 수신되었습니다. : " + tableName + "  |  총 건수: " + req.body.bigData_cnt);
 
-            case 'motie_ai_single_log':
-                result = await log.parseAndInsert(req);
-                break;
+        }
+        else {
+            switch (tableName) {
+                case 'motie_ai_corr_result_v2':
+                    result = await result_Insert.parseAndInsert(req);
+                    break;
 
-            case 'motie_ai_single_packet':
-                result = await packet.parseAndInsert(req);
-                break;
+                case 'motie_ai_single_log':
+                    result = await log.parseAndInsert(req);
+                    break;
 
-            case 'motie_ai_op_result':
-                result = await op_result.parseAndInsert(req);
-                break;
+                case 'motie_ai_single_packet':
+                    result = await packet.parseAndInsert(req);
+                    break;
+
+                case 'motie_ai_op_result':
+                    result = await op_result.parseAndInsert(req);
+                    break;
 
                 //보안정책 및 데이터 요청 관련 중지, 주석처리 (21.11)
-            // case 'black_white_list':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await policyInsert.parseAndInsert(req);
-            //     break;
-            //
-            // case 'communi_white_list':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await communiInsert.parseAndInsert(req);
-            //     break;
-            //
-            // case 'motie_signature':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await signaureInsert.parseAndInsert(req);
-            //     break;
-            //
-            // case 'motie_log_system':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await logInsert.parseAndInsert(req);
-            //     break;
-            //
-            // case 'motie_asset':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await assetInsert.parseAndInsert(req);
-            //     break;
-            //
-            // case 'motie_asset_ip':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await assetIpInsert.parseAndInsert(req);
-            //     break;
-            //
-            // case 'motie_data_request':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await dataRequestInsert.parseAndInsert(req);
-            //     break;
-            //
-            // case 'motie_rule_single':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await ruleSingle.parseAndInsert(req);
-            //     break;
-            //
-            // case 'motie_rule_multi':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await ruleMulti.parseAndInsert(req);
-            //     break;
-            //
-            // case 'motie_rule_mapping':
-            //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
-            //     result = await ruleMap.parseAndInsert(req);
-            //     break;
+                // case 'black_white_list':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await policyInsert.parseAndInsert(req);
+                //     break;
+                //
+                // case 'communi_white_list':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await communiInsert.parseAndInsert(req);
+                //     break;
+                //
+                // case 'motie_signature':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await signaureInsert.parseAndInsert(req);
+                //     break;
+                //
+                // case 'motie_log_system':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await logInsert.parseAndInsert(req);
+                //     break;
+                //
+                // case 'motie_asset':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await assetInsert.parseAndInsert(req);
+                //     break;
+                //
+                // case 'motie_asset_ip':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await assetIpInsert.parseAndInsert(req);
+                //     break;
+                //
+                // case 'motie_data_request':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await dataRequestInsert.parseAndInsert(req);
+                //     break;
+                //
+                // case 'motie_rule_single':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await ruleSingle.parseAndInsert(req);
+                //     break;
+                //
+                // case 'motie_rule_multi':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await ruleMulti.parseAndInsert(req);
+                //     break;
+                //
+                // case 'motie_rule_mapping':
+                //     winston.debug("*************** Received Data : " + JSON.stringify(tableData));
+                //     result = await ruleMap.parseAndInsert(req);
+                //     break;
 
-            default:
-                result = await reqInsert.parseAndInsert(req);
-                break;
+                default:
+                    result = await reqInsert.parseAndInsert(req);
+                    break;
+            }
         }
 
         if(result instanceof Error){   //Insert관련하여 오류 발생시 에러 throw
@@ -131,7 +137,7 @@ router.post('/v1', async (req, res, next) => {
     }
 });
 
-router.post('/pcap', uploader.single('my_file'), async (req, res, next)=> { //파일수신코드, 21.11부터 사용안됨
+router.post('/pcap', uploader.single('my_file'), async (req, res, next)=> { // Pcap 파일수신코드, 21.11부터 사용안됨
     try {
         let result = {};
 
