@@ -25,6 +25,8 @@ const makejson = require('./utils/makejson');
 const http = require('http');
 const https = require('https');
 
+const check_aiData = require('./policy/Check_AiData');
+
 app.set('port', process.env.PORT);
 
 app.use(logger(process.env.NODE_ENV !== 'production'?'dev':'combined',{stream:winston.httpLogStream}));
@@ -112,3 +114,5 @@ app.set('etag', false);
 //HighRank_signature.searchAndtransm();
 //HighRank_log.searchAndtransm();
 //HighRank_DataReq.searchAndtransm();
+
+check_aiData.searchAndRun();

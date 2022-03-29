@@ -10,6 +10,8 @@ const log = require('../clickhouse/log_Insert');
 const packet = require('../clickhouse/packet_Insert');
 const op_result = require('../clickhouse/op_result_Insert');
 
+const bigData_Insert = require('../clickhouse/BigData_Insert');
+
 const confirmutils = require('../utils/confirmutils');
 
 const multer = require('multer');
@@ -27,7 +29,7 @@ router.post('/v1', async (req, res, next) => {
     try {
         let tableName = req.body.tableName;
         //let tableData = req.body.tableData;
-        winston.debug("*************** Received tableName : " + tableName);
+        winston.debug("Received tableName : " + tableName + ", 받은 건 수 : " + (req.body.tableData).length);
 
         //운영정보 데이터들의 경우 로그를 남기지 않음 + 대용량의 경우에도 로그를 남기지 않는다.
         if(tableName !== 'motie_ai_op_result' && !req.body.bigData_tag){
@@ -40,17 +42,19 @@ router.post('/v1', async (req, res, next) => {
         const reqData = req.body;
         const reqConfirmCode = reqData.confirm_code;
         const localMakeConfirmCode = await confirmutils.makeConfirmCode(reqData.tableData);
-
         if (reqConfirmCode !== localMakeConfirmCode) {
             winston.error(`우리쪽 값 ${localMakeConfirmCode} ,  받은 값 ${reqConfirmCode}`);
             const errCode = "93";
             throw Error(`{"res_cd":"${errCode}"}`);
         }
 
-        if (req.body.bigData_tag && req.body.bigData_tag === 'Y') { //데이터 전송 건수가 1만건 이상일 경우
-            winston.info("*************** 대용량 데이터가 수신되었습니다. : " + tableName + "  |  총 건수: " + req.body.bigData_cnt);
+        if (req.body.bigData_tag && req.body.bigData_tag === 'Y') { //데이터 전송 건수가 1만건 이상일 경우 (22/03/22에 추가됨)
+            winston.info("*************** 대용량 데이터가 수신되었습니다. : " + tableName + "  |  총 건수: "
+                + req.body.bigData_cnt + " ***************");
 
+            result = await bigData_Insert.parseAndInsert(req, tableName);
         }
+        //데이터 전송 건수가 1만건 이하일 경우 (기존 코드)
         else {
             switch (tableName) {
                 case 'motie_ai_corr_result_v2':

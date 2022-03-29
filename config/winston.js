@@ -85,7 +85,7 @@ const logger = function (callingModule) {
                 datePattern: 'YYYY-MM-DD',
                 dirname: logDir,
                 filename: `%DATE%.log`,
-                maxFiles: 30,  // 30일치 로그 파일 저장
+                maxFiles: '180d',  // 30일치 로그 파일 저장
                 zippedArchive: true,
                 format: combine(
                     label({ label: 'http'}),
