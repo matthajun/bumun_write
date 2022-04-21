@@ -31,12 +31,12 @@ app.set('port', process.env.PORT);
 
 app.use(logger(process.env.NODE_ENV !== 'production'?'dev':'combined',{stream:winston.httpLogStream}));
 
-//json 수신 용량 확장 설정 (22.3.14)
+//json 수신 용량 확장 설정 (22.3.14) 1000으로 다시변경(22.3.30)
 app.use(express.json({
-  limit : '100mb'
+  limit : '1000mb'
 }));
 app.use(express.urlencoded({
-  limit : '100mb',
+  limit : '1000mb',
   extended: false
 }));
 

@@ -35,7 +35,7 @@ Array.prototype.division = function (n) {
 const timer = ms => new Promise(res => setTimeout(res, ms));
 
 module.exports.searchAndRun = async function() {
-    schedule.scheduleJob('17 * * * *', async function() { // 1시간마다, 매 10분마다 해당 삭제 스케쥴이 실행
+    schedule.scheduleJob('10 * * * *', async function() { // 매 시간 10분마다 해당 삭제 스케쥴이 실행
         let rtnResult = {};
         let data = [];
 
@@ -53,8 +53,23 @@ module.exports.searchAndRun = async function() {
                     + table.replace('motie_ai_single_', ''));
 
 
-                /* 삭제 모듈 실행 */
-
+                /* 삭제 실행 */
+                let delete_query = `alter table dti.${table} delete
+                where concat(hash, toString(version)) in (
+                select concat(hash, max(toString(version)))
+                from dti.motie_ai_single_packet
+                where hash in (
+                select hash
+                from dti.motie_ai_single_packet
+                where time >= '${a_schedule_version}'
+                and time < '${b_schedule_version}'
+                group by hash
+                having count() > 1
+                )
+                group by hash
+                )`;
+                winston.debug('+++++++++++++ a_version  ~  b_version : ' + a_schedule_version + ' ~ ' + b_schedule_version);
+                let dele = await clickhouse.query(delete_query).toPromise();
 
                 data = await clickhouse.query(count_query).toPromise();
                 winston.debug('+++++++++++++ 중복 데이터 삭제 실행 후 데이터 건수 : ' + data[0].cnt + ', Data : '
