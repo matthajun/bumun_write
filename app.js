@@ -68,11 +68,11 @@ app.use(session({
     httpOnly: true,
     secure: false,
   },
-}));
 
+}));
 sequelize.sync({ force: false })
     .then(() => {
-      winston.info('success db connect (ver. 22 03 30) ');
+      winston.info('success db connect (ver. 22 04 27) ');
     })
     .catch((err) => {
       winston.error(err.stack);

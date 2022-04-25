@@ -74,7 +74,6 @@ module.exports.searchAndRun = async function() {
                 data = await clickhouse.query(count_query).toPromise();
                 winston.debug('+++++++++++++ 중복 데이터 삭제 실행 후 데이터 건수 : ' + data[0].cnt + ', Data : '
                     + table.replace('motie_ai_single_', ''));
-
             }
         } catch (error) {
             winston.error(error.stack);
