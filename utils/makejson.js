@@ -18,12 +18,17 @@ module.exports.makeReqData = function (id){
     return reqData;
 };
 
-module.exports.makeResData = function (err, req){
+module.exports.makeResData = function (err, req, flag){
     let resData={};
     let resBody={};
     const reqHeaderData = _.cloneDeep(req.body.header);
     if(!err){
-        resBody = {"result":{"res_cd":"00","res_msg":"정상처리"}};
+        if(flag){
+            resBody = {"result": {"res_cd": "00", "res_msg": "빅데이터 정상처리"}};
+        }
+        else {
+            resBody = {"result": {"res_cd": "00", "res_msg": "정상처리"}};
+        }
     }else{
         let errMessage;
         let errResult;

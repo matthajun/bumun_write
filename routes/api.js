@@ -133,7 +133,12 @@ router.post('/v1', async (req, res, next) => {
         if(result instanceof Error){   //Insert관련하여 오류 발생시 에러 throw
             throw new Error(result);
         }else{  //단위시스템에 대한 응답
-            res.json(makejson.makeResData(null,req));
+            if (req.body.bigData_tag && req.body.bigData_tag === 'Y') {
+                res.json(makejson.makeResData(null, req, 'Y'));
+            }
+            else{
+                res.json(makejson.makeResData(null, req));
+            }
         }
 
     } catch (err) {
