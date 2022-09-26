@@ -25,7 +25,7 @@ const makejson = require('./utils/makejson');
 const http = require('http');
 const https = require('https');
 
-const check_aiData = require('./policy/Check_AiData');
+//const check_aiData = require('./policy/Check_AiData');
 
 app.set('port', process.env.PORT);
 
@@ -72,7 +72,7 @@ app.use(session({
 }));
 sequelize.sync({ force: false })
     .then(() => {
-      winston.info('success db connect (ver. 22 04 27) ');
+      winston.info('success db connect (ver. 22 08 11) ');
     })
     .catch((err) => {
       winston.error(err.stack);
@@ -115,4 +115,5 @@ app.set('etag', false);
 //HighRank_log.searchAndtransm();
 //HighRank_DataReq.searchAndtransm();
 
-check_aiData.searchAndRun();
+// 임시 중단 (22.07.27)
+//check_aiData.searchAndRun();
